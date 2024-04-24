@@ -7,8 +7,7 @@ const { sameSiteCookieMiddleware } = require("express-samesite-default");
 const cors = require("cors");
 const http = require("http");
 const path = require("path");
-const GraphQLTypes = require("./graphql/typeDefs");
-const GraphQLResolvers = require("./graphql/resolvers");
+
 const axios = require('axios');
 const { JSDOM } = require('jsdom');
 const _ = require('lodash');
@@ -43,29 +42,7 @@ app.options("*/*", cors(corsOptions));
 
 
 
-const server = new ApolloServer({
-  typeDefs: GraphQLTypes,
-  resolvers: GraphQLResolvers,
-  context: ({ req, res }) => ({
-    req,
-    res,
-    resolver: GraphQLResolvers
 
-  }),
-});
-
-server.applyMiddleware({
-  app: app,
-  path: "/graphql",
-  cors: false,
-});
-
-const httpServer = http.createServer(app);
-
-
-httpServer.listen(PORT, () => {
-  console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
-});
 async function getVisitorId() {
   var apiKey = '';
   var visitorId = '';
